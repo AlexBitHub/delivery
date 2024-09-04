@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DeliveryApp.Core\DeliveryApp.Core.csproj"/>
-        <ProjectReference Include="..\Utils\Primitives\Primitives.csproj"/>
+        <ProjectReference Include="..\DeliveryApp.Core\DeliveryApp.Core.csproj" />
+        <ProjectReference Include="..\Utils\Primitives\Primitives.csproj" />
     </ItemGroup>
 
 </Project>
