@@ -39,12 +39,15 @@ namespace DeliveryApp.Core.Domain.SharedKernel
         /// <returns></returns>
         public static Result<Location, Error> Create(int x, int y)
         {
-            var validationResult = ValidateCoordinate(x) && ValidateCoordinate(y);
-            if (!validationResult)
+            if (x < MinValue || x > MaxValue) 
             {
-                var error = new Error("coordinate.is.invalid", "Значение координаты должно быть " +
-                                                               "не меньше 1.1 и не больше 10.10.");
-                return error;
+                return new Error("coordinate.is.invalid", "Значение координаты X должно быть " +
+                                                          "не меньше 1.1 и не больше 10.10.");
+            }
+            if (y < MinValue || y > MaxValue)
+            {
+                return new Error("coordinate.is.invalid", "Значение координаты Y должно быть " +
+                                                          "не меньше 1.1 и не больше 10.10.");
             }
             return new Location(x, y);
         }
