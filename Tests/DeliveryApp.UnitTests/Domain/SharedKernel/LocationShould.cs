@@ -75,8 +75,8 @@ namespace DeliveryApp.UnitTests.Domain.SharedKernel
             var randomLocation = Location.CreateRandomLocation();
 
             randomLocation.IsSuccess.Should().BeTrue();
-            randomLocation.Value.X.Should().BeInRange(2, 10);
-            randomLocation.Value.Y.Should().BeInRange(2, 10);
+            randomLocation.Value.X.Should().BeInRange(Location.MinValue, Location.MaxValue);
+            randomLocation.Value.Y.Should().BeInRange(Location.MinValue, Location.MaxValue);
         }
     }
 }

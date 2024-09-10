@@ -6,6 +6,16 @@ namespace DeliveryApp.Core.Domain.SharedKernel
 {
     public class Location : ValueObject
     {
+        /// <summary>
+        /// Минимально возможное значение координаты
+        /// </summary>
+        public const int MinValue = 2;
+
+        /// <summary>
+        /// Максимально возможное значение координаты
+        /// </summary>
+        public const int MaxValue = 10;
+
         [ExcludeFromCodeCoverage]
         private Location()
         {
@@ -21,26 +31,42 @@ namespace DeliveryApp.Core.Domain.SharedKernel
         public int X { get; }
         public int Y { get; }
 
+        /// <summary>
+        /// Создать координату
+        /// </summary>
+        /// <param name="x">Значение по горизонтали</param>
+        /// <param name="y">Значение по вертикали</param>
+        /// <returns></returns>
         public static Result<Location, Error> Create(int x, int y)
         {
             var validationResult = ValidateCoordinate(x) && ValidateCoordinate(y);
             if (!validationResult)
             {
                 var error = new Error("coordinate.is.invalid", "Значение координаты должно быть " +
-                                                                         "не меньше 1.1 и не больше 10.10.");
+                                                               "не меньше 1.1 и не больше 10.10.");
                 return error;
             }
             return new Location(x, y);
         }
 
+        /// <summary>
+        /// Создать рандомную координату
+        /// </summary>
+        /// <returns></returns>
         public static Result<Location, Error> CreateRandomLocation()
         {
             var random = new Random();
-            int x = random.Next(2, 10);
-            int y = random.Next(2, 10);
+            int x = random.Next(MinValue, MaxValue);
+            int y = random.Next(MinValue, MaxValue);
             return Create(x, y).Value;
         }
 
+        /// <summary>
+        /// Расчет дистанции в шагах
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static int operator-(Location left, Location right)
         {
             var xDifference = Math.Abs(left.X - right.X);
@@ -57,7 +83,7 @@ namespace DeliveryApp.Core.Domain.SharedKernel
 
         private static bool ValidateCoordinate(int value)
         {
-            if (value < 1.1 || value > 10.10)
+            if (value < MinValue || value > MaxValue)
                 return false;
             return true;
         }
