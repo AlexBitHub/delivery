@@ -76,7 +76,7 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
         {
             public static Error StatusIsWrong()
             {
-                string message = $"Не верное значение. " +
+                string message = $"Неверное значение. " +
                                  $"Допустимые значения: {nameof(Transport).ToLowerInvariant()}: " +
                                  $"{string.Join(",", List().Select(s => s.Name))}";
 

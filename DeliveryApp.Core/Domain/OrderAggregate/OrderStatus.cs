@@ -71,7 +71,7 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
         {
             public static Error StatusIsWrong()
             {
-                string message = $"Не верное значение. " +
+                string message = $"Неверное значение. " +
                                  $"Допустимые значения: {nameof(OrderStatus).ToLowerInvariant()}: " +
                                  $"{string.Join(",", List().Select(s => s.Name))}";
 

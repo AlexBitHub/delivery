@@ -80,7 +80,9 @@ public class CourierStatus : Entity<int>
         public static Error StatusIsWrong()
         {
             return new Error($"{nameof(CourierStatus).ToLowerInvariant()}.is.wrong",
-                $"Не верное значение. Допустимые значения: {nameof(CourierStatus).ToLowerInvariant()}: {string.Join(",", List().Select(s => s.Name))}");
+                             $"Неверное значение. Допустимые значения: " +
+                             $"{nameof(CourierStatus).ToLowerInvariant()}: " +
+                             $"{string.Join(",", List().Select(s => s.Name))}");
         }
     }
 }
