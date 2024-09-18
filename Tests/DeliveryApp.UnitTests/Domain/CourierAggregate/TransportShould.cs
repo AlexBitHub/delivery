@@ -92,12 +92,12 @@ namespace DeliveryApp.UnitTests.Domain.CourierAggregate
 
         public static IEnumerable<object[]> GetCorrectTestData()
         {
-            return Transport.List()
-                            .Select(x => new object[]
-                            {
-                                x.Id,
-                                x.Name
-                            });
+            return new List<object[]>
+            {
+                new object[] { 1, "pedestrian" },
+                new object[] { 2, "bicycle" },
+                new object[] { 3, "car" }
+            };
         }
     }
 }
