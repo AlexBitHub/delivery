@@ -25,6 +25,10 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
 
         public static Result<Order, Error> Create(Guid id, Location location)
         {
+            if (location is null)
+            {
+                return GeneralErrors.ValueIsInvalid(nameof(location));
+            }
             if (id == Guid.Empty)
             {
                 return GeneralErrors.ValueIsInvalid(nameof(id));
@@ -32,7 +36,7 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
             return new Order(id, location);
         }
 
-        public Result<object, Error> AssignOnCourier(Courier courier)
+        public UnitResult<Error> AssignOnCourier(Courier courier)
         {
             if (Status == OrderStatus.Assigned)
             {
@@ -48,10 +52,10 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
             Courierid = courier.Id;
             Status = OrderStatus.Assigned;
 
-            return new object();
+            return UnitResult.Success<Error>();
         }
 
-        public Result<object, Error> CompleteOrder()
+        public UnitResult<Error> CompleteOrder()
         {
             if (Status != OrderStatus.Assigned)
             {
@@ -60,7 +64,7 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
             }
             Status = OrderStatus.Completed;
 
-            return new object();
+            return UnitResult.Success<Error>();
         }
     }
 }

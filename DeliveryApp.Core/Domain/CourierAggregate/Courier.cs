@@ -7,7 +7,7 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
 {
     public class Courier : Aggregate
     {
-        private Courier() 
+        private Courier()
         {
         }
 
@@ -32,10 +32,19 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
             {
                 return GeneralErrors.ValueIsRequired(nameof(name));
             }
+            if (transport is null)
+            {
+                return GeneralErrors.ValueIsRequired(nameof(transport));
+            }
+            if (location is null)
+            {
+                return GeneralErrors.ValueIsRequired(nameof(location));
+            }
+
             return new Courier(name, transport, location);
         }
 
-        public Result<object, Error> SetBusy()
+        public UnitResult<Error> SetBusy()
         {
             if (Status == CourierStatus.Busy)
             {
@@ -43,10 +52,10 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
                                  "Курьер уже занят");
             }
             Status = CourierStatus.Busy;
-            return new object();
+            return UnitResult.Success<Error>();
         }
 
-        public Result<object, Error> SetFree()
+        public UnitResult<Error> SetFree()
         {
             if (Status == CourierStatus.Free)
             {
@@ -54,7 +63,7 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
                                  $"Курьер уже свободен");
             }
             Status = CourierStatus.Free;
-            return new object();
+            return UnitResult.Success<Error>();
         }
 
         public Result<double, Error> CalculateTimeToDestionation(Location orderLocation)
