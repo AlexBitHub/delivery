@@ -9,7 +9,7 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.EntityConfigurations.Cour
         
         public void Configure(EntityTypeBuilder<Transport> builder)
         {
-            builder.ToTable("courier_statuses");
+            builder.ToTable("transports");
             
             builder.HasKey(entity => entity.Name);
 
@@ -20,6 +20,10 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.EntityConfigurations.Cour
 
             builder.Property(entity => entity.Name)
                    .HasColumnName ("name")
+                   .IsRequired();
+            
+            builder.Property(entity => entity.Speed)
+                   .HasColumnName("speed")
                    .IsRequired();
         }
     }

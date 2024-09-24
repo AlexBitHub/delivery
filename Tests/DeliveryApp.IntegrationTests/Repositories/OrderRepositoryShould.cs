@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DeliveryApp.IntegrationTests.Repositories
 {
-    public class OrderRepositoriesShould
+    public class OrderRepositoryShould
     {
     }
 }
