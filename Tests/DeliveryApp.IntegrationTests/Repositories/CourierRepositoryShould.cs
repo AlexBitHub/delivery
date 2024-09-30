@@ -24,7 +24,7 @@ namespace DeliveryApp.IntegrationTests.Repositories
         private ApplicationDbContext _dbContext;
         private Transport _courierTransport;
         private Location _courierLocation;
-        private Courier[] _freeCourier = new Courier[2];
+        /private Courier[] _freeCourier = new Courier[2];
 
         public CourierRepositoryShould()
         {
@@ -32,8 +32,6 @@ namespace DeliveryApp.IntegrationTests.Repositories
             var location = Location.Create(5, 4);
             location.IsSuccess.Should().BeTrue();
             _courierLocation = location.Value;
-
-
         }
 
         public async Task DisposeAsync()
@@ -113,11 +111,6 @@ namespace DeliveryApp.IntegrationTests.Repositories
 
             // Assert
             courierFromDb.Should().BeEquivalentTo(courier.Value);
-
-        }
-
-        public void GetFreeCouriers()
-        {
 
         }
     }
