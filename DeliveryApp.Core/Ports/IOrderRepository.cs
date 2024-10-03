@@ -12,12 +12,12 @@ namespace DeliveryApp.Core.Ports
         /// Заказы со статусом Created
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Order> GetNewOrders();
+        Task<IEnumerable<Order>> GetNewOrdersAsync();
 
         /// <summary>
         /// Заказы со статусом Assigned
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Order> GetAssignedOrders();
+        Task<IEnumerable<Order>> GetAssignedOrdersAsync();
     }
 }

@@ -1,12 +1,7 @@
 ﻿using DeliveryApp.Core.Domain.CourierAggregate;
+using DeliveryApp.Core.Domain.Model.CourierAggregate;
 using DeliveryApp.Core.Ports;
 using Microsoft.EntityFrameworkCore;
-using DeliveryApp.Core.Domain.Model.CourierAggregate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
 {
@@ -40,13 +35,13 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
             return courier;
         }
 
-        public IEnumerable<Courier> GetFreeCouriers()
+        public async Task<IEnumerable<Courier>> GetFreeCouriersAsync()
         {
-            var freeCouriers = _dbContext.Couriers
-                                         .Include(x => x.Transport)
-                                         .Include(x => x.Status)
-                                         .Where(x => x.Status == CourierStatus.Free);
-
+            var freeCouriers = await _dbContext.Couriers
+                                               .Include(x => x.Transport)
+                                               .Include(x => x.Status)
+                                               .Where(x => x.Status == CourierStatus.Free)
+                                               .ToArrayAsync();
             return freeCouriers;
         }
 

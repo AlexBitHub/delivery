@@ -21,21 +21,21 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
             await _dbContext.Orders.AddAsync(order);           
         }
 
-        public IEnumerable<Order> GetAssignedOrders()
+        public async Task<IEnumerable<Order>> GetAssignedOrdersAsync()
         {
-            var assignedOrders = _dbContext.Orders.Include(x => x.Location)
-                                                  .Include(x => x.Status)
-                                                  .Where(x => x.Status == OrderStatus.Assigned);
-
+            var assignedOrders = await _dbContext.Orders.Include(x => x.Location)
+                                                        .Include(x => x.Status)
+                                                        .Where(x => x.Status == OrderStatus.Assigned)
+                                                        .ToArrayAsync();
             return assignedOrders;
         }
 
-        public IEnumerable<Order> GetNewOrders()
+        public async Task<IEnumerable<Order>> GetNewOrdersAsync()
         {
-            var assignedOrders = _dbContext.Orders.Include(x => x.Location)
-                                                  .Include(x => x.Status)
-                                                  .Where(x => x.Status == OrderStatus.Created);
-            
+            var assignedOrders = await _dbContext.Orders.Include(x => x.Location)
+                                                        .Include(x => x.Status)
+                                                        .Where(x => x.Status == OrderStatus.Created)
+                                                        .ToArrayAsync();            
             return assignedOrders;
         }
 
@@ -44,7 +44,6 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
             var order = await _dbContext.Orders.Include(x => x.Location)
                                                .Include(x => x.Status)
                                                .FirstOrDefaultAsync(x => x.Id == orderId);
-
             return order;
         }
 

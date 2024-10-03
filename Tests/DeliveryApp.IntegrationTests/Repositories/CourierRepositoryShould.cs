@@ -24,7 +24,7 @@ namespace DeliveryApp.IntegrationTests.Repositories
         private ApplicationDbContext _dbContext;
         private Transport _courierTransport;
         private Location _courierLocation;
-        /private Courier[] _freeCourier = new Courier[2];
+        private Courier[] _freeCourier = new Courier[2];
 
         public CourierRepositoryShould()
         {

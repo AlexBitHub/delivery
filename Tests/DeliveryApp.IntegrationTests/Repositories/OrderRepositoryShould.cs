@@ -138,7 +138,7 @@ namespace DeliveryApp.IntegrationTests.Repositories
             var newTestOrders = _orders.Where(x => x.Status == OrderStatus.Created).ToArray();
             
             // Act
-            var newOrdersFromDb = orderRepos.GetNewOrders().ToArray();
+            var newOrdersFromDb = await orderRepos.GetNewOrdersAsync();
 
             // Assert
             newOrdersFromDb.Should().BeEquivalentTo(newOrdersFromDb);
@@ -158,7 +158,7 @@ namespace DeliveryApp.IntegrationTests.Repositories
             var assignedTestOrders = _orders.Where(x => x.Status == OrderStatus.Assigned).ToArray();
 
             // Act
-            var assignedOrdersFromDb = orderRepos.GetAssignedOrders().ToArray();
+            var assignedOrdersFromDb = await orderRepos.GetAssignedOrdersAsync();
 
             // Assert
             assignedOrdersFromDb.Should().BeEquivalentTo(assignedTestOrders);
