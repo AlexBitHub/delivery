@@ -1,3 +1,9 @@
+using DeliveryApp.Core.Ports;
+using DeliveryApp.Infrastructure.Adapters.Postgres;
+using DeliveryApp.Infrastructure.Adapters.Postgres.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Primitives;
+
 namespace DeliveryApp.Api;
 
 public class Startup
@@ -36,6 +42,19 @@ public class Startup
         var connectionString = Configuration["CONNECTION_STRING"];
         var geoServiceGrpcHost = Configuration["GEO_SERVICE_GRPC_HOST"];
         var messageBrokerHost = Configuration["MESSAGE_BROKER_HOST"];
+
+        services.AddDbContext<ApplicationDbContext>((_, optBuilder) =>
+        {
+            optBuilder.UseNpgsql(
+                connectionString,
+                sqlOpt => { sqlOpt.MigrationsAssembly("DeliveryApp.Infrastructure"); });
+            optBuilder.EnableSensitiveDataLogging();
+        });
+
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+        services.AddTransient<IOrderRepository, OrderRepository>();
+        services.AddTransient<ICourierRepository, CourierRepository>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

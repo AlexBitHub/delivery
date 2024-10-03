@@ -21,7 +21,7 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
 
         public Location Location { get; }
         public OrderStatus Status { get; private set; }
-        public Guid? Courierid { get; private set; }
+        public Guid? CourierId { get; private set; }
 
         public static Result<Order, Error> Create(Guid id, Location location)
         {
@@ -49,7 +49,7 @@ namespace DeliveryApp.Core.Domain.OrderAggregate
                                  "Курьер уже имеет заказ.");
             }
 
-            Courierid = courier.Id;
+            CourierId = courier.Id;
             Status = OrderStatus.Assigned;
 
             return UnitResult.Success<Error>();
