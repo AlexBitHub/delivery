@@ -11,7 +11,9 @@ namespace DeliveryApp.Core.Application.Queries.GetOpenOrders
 
         public GetCreatedAndAssignedOrdersHandler(string connectionString) 
         {
-            _connectionString = connectionString;
+            _connectionString = !string.IsNullOrWhiteSpace(connectionString)
+                                ? connectionString
+                                : throw new ArgumentNullException(nameof(connectionString));
         }
 
         public async Task<GetCreatedAndAssignedOrdersResponse> Handle(GetCreatedAndAssignedOrdersQuery request,

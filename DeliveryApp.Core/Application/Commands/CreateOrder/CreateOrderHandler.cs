@@ -22,7 +22,9 @@ namespace DeliveryApp.Core.Application.Commands.CreateOrder
             // TODO: получать Location из сервиса Geo
             var location = Location.CreateRandomLocation();
             var order = Order.Create(request.BasketId, location.Value);
-
+            if (order.IsFailure)
+                return false;
+                
             await _orderRepository.AddOrderAsync(order.Value);
                         
             await _unitOfWork.SaveEntitiesAsync(cancellationToken);
