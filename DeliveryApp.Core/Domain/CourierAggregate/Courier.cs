@@ -72,7 +72,7 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
             return distance / Transport.Speed;
         }
 
-        public Result<object, Error> Move(Location targetLocation)
+        public UnitResult<Error> Move(Location targetLocation)
         {
             if (targetLocation == null) 
                 return GeneralErrors.ValueIsRequired(nameof(targetLocation));
@@ -91,14 +91,15 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
                 {
                     newX += speed;
                     Location = Location.Create(newX, newY).Value;
-                    return new object();
+                    return UnitResult.Success<Error>();
                 }
 
                 if (difX < speed)
                 {
                     newX += difX;
                     Location = Location.Create(newX, newY).Value;
-                    if (Location == targetLocation) return new object();
+                    if (Location == targetLocation) 
+                        return UnitResult.Success<Error>();
                     speed -= difX;
                 }
             }
@@ -109,14 +110,15 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
                 {
                     newX -= speed;
                     Location = Location.Create(newX, newY).Value;
-                    return new object();
+                    return UnitResult.Success<Error>();
                     }
 
                 if (Math.Abs(difX) < speed)
                 {
                     newX -= Math.Abs(difX);
                     Location = Location.Create(newX, newY).Value;
-                    if (Location == targetLocation) return new object();
+                    if (Location == targetLocation) 
+                        return UnitResult.Success<Error>();
                     speed -= Math.Abs(difX);
                 }
             }
@@ -127,14 +129,15 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
                 {
                     newY += speed;
                     Location = Location.Create(newX, newY).Value;
-                    return new object();
+                    return UnitResult.Success<Error>();
                 }
 
                 if (difY < speed)
                 {
                     newY += difY;
                     Location = Location.Create(newX, newY).Value;
-                    if (Location == targetLocation) return new object();
+                    if (Location == targetLocation) 
+                        return UnitResult.Success<Error>();
                 }
             }
 
@@ -144,19 +147,19 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
                 {
                     newY -= speed;
                     Location = Location.Create(newX, newY).Value;
-                    return new object();
+                    return UnitResult.Success<Error>();
                 }
 
                 if (Math.Abs(difY) < speed)
                 {
                     newY -= Math.Abs(difY);
                     Location = Location.Create(newX, newY).Value;
-                    if (Location == targetLocation) return new object();
+                    if (Location == targetLocation) return UnitResult.Success<Error>();
                 }
             }
 
             Location = Location.Create(newX, newY).Value;
-            return new object();
+            return UnitResult.Success<Error>();
         }
 
     }

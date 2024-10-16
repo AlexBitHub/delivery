@@ -36,7 +36,9 @@ public class DeliveryController : DefaultApiController
         var response = await _mediator.Send(getCouriers);
 
         if (response is null)
-            return NoContent();
+        {
+            return Ok(Array.Empty<Courier>());
+        }
         var couriers = response.Couriers.Select(x => new Courier()
         {
            Id = x.Id,
