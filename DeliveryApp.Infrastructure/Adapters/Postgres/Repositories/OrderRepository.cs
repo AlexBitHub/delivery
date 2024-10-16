@@ -27,7 +27,7 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
                                                         .Include(x => x.Status)
                                                         .Where(x => x.Status == OrderStatus.Assigned)
                                                         .ToArrayAsync();
-            return assignedOrders;
+            return assignedOrders ?? Array.Empty<Order>();
         }
 
         public async Task<IEnumerable<Order>> GetNewOrdersAsync()
@@ -36,7 +36,7 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
                                                         .Include(x => x.Status)
                                                         .Where(x => x.Status == OrderStatus.Created)
                                                         .ToArrayAsync();            
-            return assignedOrders;
+            return assignedOrders ?? Array.Empty<Order>();
         }
 
         public async Task<Order> GetOrder(Guid orderId)

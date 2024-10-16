@@ -21,7 +21,7 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
 
         public string Name { get; }
         public Transport Transport { get; }
-        public Location Location { get; }
+        public Location Location { get; private set;}
         public CourierStatus Status { get; private set; }
 
         public static Result<Courier, Error> Create(string name,
@@ -71,5 +71,96 @@ namespace DeliveryApp.Core.Domain.CourierAggregate
             double distance = orderLocation - Location;
             return distance / Transport.Speed;
         }
+
+        public UnitResult<Error> Move(Location targetLocation)
+        {
+            if (targetLocation == null) 
+                return GeneralErrors.ValueIsRequired(nameof(targetLocation));
+
+            var difX = targetLocation.X - Location.X;
+            var difY = targetLocation.Y - Location.Y;
+
+            var newX = Location.X;
+            var newY = Location.Y;
+
+            var speed = Transport.Speed;
+
+            if (difX > 0)
+            {
+                if (difX >= speed)
+                {
+                    newX += speed;
+                    Location = Location.Create(newX, newY).Value;
+                    return UnitResult.Success<Error>();
+                }
+
+                if (difX < speed)
+                {
+                    newX += difX;
+                    Location = Location.Create(newX, newY).Value;
+                    if (Location == targetLocation) 
+                        return UnitResult.Success<Error>();
+                    speed -= difX;
+                }
+            }
+
+            if (difX < 0)
+            {
+                if (Math.Abs(difX) >= speed)
+                {
+                    newX -= speed;
+                    Location = Location.Create(newX, newY).Value;
+                    return UnitResult.Success<Error>();
+                    }
+
+                if (Math.Abs(difX) < speed)
+                {
+                    newX -= Math.Abs(difX);
+                    Location = Location.Create(newX, newY).Value;
+                    if (Location == targetLocation) 
+                        return UnitResult.Success<Error>();
+                    speed -= Math.Abs(difX);
+                }
+            }
+
+            if (difY > 0)
+            {
+                if (difY >= speed)
+                {
+                    newY += speed;
+                    Location = Location.Create(newX, newY).Value;
+                    return UnitResult.Success<Error>();
+                }
+
+                if (difY < speed)
+                {
+                    newY += difY;
+                    Location = Location.Create(newX, newY).Value;
+                    if (Location == targetLocation) 
+                        return UnitResult.Success<Error>();
+                }
+            }
+
+            if (difY < 0)
+            {
+                if (Math.Abs(difY) >= speed)
+                {
+                    newY -= speed;
+                    Location = Location.Create(newX, newY).Value;
+                    return UnitResult.Success<Error>();
+                }
+
+                if (Math.Abs(difY) < speed)
+                {
+                    newY -= Math.Abs(difY);
+                    Location = Location.Create(newX, newY).Value;
+                    if (Location == targetLocation) return UnitResult.Success<Error>();
+                }
+            }
+
+            Location = Location.Create(newX, newY).Value;
+            return UnitResult.Success<Error>();
+        }
+
     }
 }
