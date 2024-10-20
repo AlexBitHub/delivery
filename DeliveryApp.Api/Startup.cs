@@ -19,6 +19,7 @@ using Primitives;
 using Quartz;
 using Api.Formatters;
 using Api.OpenApi;
+using DeliveryApp.Infrastructure.Adapters.Grpc.GeoService;
 
 namespace DeliveryApp.Api;
 
@@ -92,6 +93,7 @@ public class Startup
         AddHttpHandlers(services);
         AddSwagger(services);
 
+        services.AddTransient<IGeoClient, Client>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
